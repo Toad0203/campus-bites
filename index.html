@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campus Bites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--closed:#c0392b;--bg:#f1f4f7;--surface:#fff;--ink:#14213d;--muted:#5b6679;--line:#dbe1e8;--accent:#e8a317;--accent-ink:#14213d;--ok:#1f7a4d;--warn:#a65d00;--chip:#e6ebf1;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--closed:#ff7a6e;--bg:#0e1526;--surface:#172036;--ink:#eef2f8;--muted:#9aa6bb;--line:#2a3550;--accent:#f2b134;--accent-ink:#14213d;--ok:#5fd09a;--warn:#f2b134;--chip:#222d47;color-scheme:dark}}
+:root[data-theme="dark"]{--closed:#ff7a6e;--bg:#0e1526;--surface:#172036;--ink:#eef2f8;--muted:#9aa6bb;--line:#2a3550;--accent:#f2b134;--accent-ink:#14213d;--ok:#5fd09a;--warn:#f2b134;--chip:#222d47;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;margin:0;line-height:1.15;letter-spacing:-.01em}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 96px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .in{max-width:720px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;background:none;border:0;padding:0}
+.brand span{background:var(--accent);color:var(--accent-ink);padding:0 7px;border-radius:6px;margin-right:4px}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;padding:6px 2px}
+.pill{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;min-height:36px}.pill:hover{border-color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink);font-weight:700;border-radius:10px;padding:11px 16px;min-height:44px;text-decoration:none}
+.btn.alt{background:transparent;color:var(--ink)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(30px,8vw,44px);font-weight:800}
+.hero p{color:var(--muted);margin:10px 0 0;max-width:46ch}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;margin:0 -16px;padding-left:16px;padding-right:16px}
+.chip{flex:none;border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:8px 14px;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.area{margin:26px 0 10px;font-size:20px;display:flex;align-items:baseline;gap:8px}
+.area small{color:var(--muted);font:400 14px "DM Sans",sans-serif}
+.card{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.card h3{font-size:19px}
+.card.open{border-left-color:var(--ok)}.card.closed{border-left-color:var(--closed)}
+.st{font-size:14px;font-weight:700;margin-top:6px}.st.open{color:var(--ok)}.st.closed{color:var(--closed)}
+.card p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:2px 9px;border-radius:999px;margin-top:8px;border:1px solid currentColor}
+.tag.ok{color:var(--ok)}.tag.warn{color:var(--warn)}.tag.info{color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0}
+.notice{border:1px dashed var(--warn);color:var(--ink);background:var(--surface);border-radius:8px;padding:10px 12px;font-size:14px;margin:12px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .n{font-weight:500}.row .d{color:var(--muted);font-size:14px}
+.price{font-weight:700;white-space:nowrap}
+.vd{display:inline-block;width:12px;height:12px;border:1.5px solid;border-radius:2px;margin-right:8px;position:relative;vertical-align:-1px}.vd::after{content:"";position:absolute;inset:2px;border-radius:50%;background:currentColor}.vd.v{color:var(--ok)}.vd.n{color:var(--closed)}
+html,body{height:100%;overflow:hidden}
+.stage{height:100%;display:flex;align-items:center;justify-content:center}
+.phone{position:fixed;inset:0;transform:translateZ(0);display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+#app{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--muted) transparent}
+#app::-webkit-scrollbar{width:5px}#app::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}#app::-webkit-scrollbar-track{background:transparent}
+header.top{top:0}
+#app:not([data-view="home"]) header.top{position:static}
+.statusbar{display:none}
+.batt{display:inline-block;width:22px;height:11px;border:1.5px solid currentColor;border-radius:3px;position:relative;vertical-align:-1px;margin-left:6px}.batt::after{content:"";position:absolute;inset:1.5px 5px 1.5px 1.5px;background:currentColor;border-radius:1px}
+@media (min-width:521px){
+ body{background:#cfd6df}
+ .phone{position:relative;inset:auto;width:390px;height:min(844px,calc(100vh - 32px));border:11px solid #0a0c12;border-radius:52px;box-shadow:0 0 0 2px #2b3040,0 30px 80px rgba(0,0,0,.35);padding-top:0}
+ .statusbar{display:flex;flex:none;align-items:center;justify-content:space-between;padding:0 26px;height:34px;font-size:13px;font-weight:700;background:var(--bg);position:relative;z-index:7}
+ .notch{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:96px;height:22px;background:#0a0c12;border-radius:999px}
+ .hero h1{font-size:32px}
+}
+@media (min-width:521px) and (prefers-color-scheme:dark){body{background:#060a14}}
+.cartbar{display:flex;gap:10px;align-items:stretch}.cartgo{flex:1;justify-content:space-between;text-align:left;gap:12px}
+.iconbtn{width:48px;min-height:48px;flex:none;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:20;display:flex;align-items:center;justify-content:center;padding:16px}.modal .box{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:20px;max-width:380px;width:100%}
+.filters{display:flex;gap:10px;margin:4px 0 8px}
+.filt{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 16px 8px 12px;min-height:40px;font-weight:500}
+.filt .vd{margin:0;width:15px;height:15px}
+.filt[data-v="veg"][aria-pressed="true"]{border-color:var(--ok);background:var(--chip);font-weight:700}
+.filt[data-v="non"][aria-pressed="true"]{border-color:var(--closed);background:var(--chip);font-weight:700}
+.cat{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:17px;margin:20px 0 0;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:40px;height:40px;border-radius:10px;border:2px solid var(--ink);background:var(--surface);font-weight:800;font-size:18px}
+.qty .add{width:auto;padding:0 14px;background:var(--accent);color:var(--accent-ink);font-size:15px}
+label{display:block;font-weight:500;margin:14px 0 6px}
+input,textarea,select{width:100%;border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 12px;min-height:44px}
+.err{color:var(--warn);font-size:14px;margin-top:6px;min-height:20px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));z-index:6}
+.bar .in{max-width:720px;margin:0 auto}
+.back{display:inline-flex;align-items:center;gap:6px;margin:14px 0 0;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:500;border-radius:999px;padding:8px 16px 8px 12px;min-height:40px}.back:hover{border-color:var(--ink)}
+.back{display:flex;width:max-content;position:sticky;top:10px;z-index:4;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.login{max-width:420px;margin:0 auto;padding:48px 16px}
+.login h1{font-size:40px;font-weight:800}
+.sep{text-align:center;color:var(--muted);margin:14px 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:9;font-size:14px}
+pre.msg{white-space:pre-wrap;background:var(--chip);border-radius:8px;padding:12px;font:14px/1.5 "DM Sans",sans-serif;margin:0}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--ink)}}
+</style>
+</head>
+<body>
+<div class="stage"><div class="phone"><div class="statusbar"><span id="clock"></span><span class="notch"></span><span>5G<span class="batt"></span></span></div><div id="app"></div><div id="ov"></div></div></div>
+<script>
+/* ---------- DATA: edit here. Fill phone / link / fee / hours / menu as you collect them ---------- */
+var ADMIN={name:"Campus Bites admin",phone:"",email:""}; // add real admin contact here
+var OUTLETS=[
+ {id:"starbucks",name:"Starbucks",area:"Academic area",mode:"app",note:"",link:"https://example.com/starbucks-app",phone:"",fee:null,hours:"",menu:[]},
+ {id:"subway",name:"Subway",area:"Academic area",mode:"phone",note:"",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"dominos",name:"Domino’s",area:"OAT",mode:"app",note:"",link:"https://example.com/dominos-app",phone:"",fee:null,hours:"",menu:[]},
+ {id:"aladdins",name:"Aladdin’s",area:"OAT",mode:"phone",note:"Takes orders by phone.",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"burgersingh",name:"Burger Singh",area:"OAT",mode:"phone",note:"",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"naughty",name:"Naughty Blenders",area:"OAT",mode:"phone",note:"",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"petra",name:"Petra Cafe",area:"In front of Hall 10",mode:"phone",note:"Takes orders by phone.",link:"",phone:"",fee:null,hours:"",sample:true,
+  menu:[{id:"p1",name:"Sample item A",price:100,desc:"Placeholder, not a real menu item"},{id:"p2",name:"Sample item B",price:150,desc:"Placeholder, not a real menu item"},{id:"p3",name:"Sample item C",price:60,desc:"Placeholder, not a real menu item"}]},
+ {id:"kathi",name:"New Kathi Rolls",area:"In front of Hall 10",mode:"phone",note:"Takes orders by phone.",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"mamamio",name:"Mama Mio",area:"In front of Hall 10",mode:"phone",note:"Takes orders by phone.",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"swaad",name:"Swaad Sangam",area:"In front of Hall 10",mode:"phone",note:"",link:"",phone:"",fee:null,hours:"",menu:[]},
+ {id:"pakwan",name:"Mere Pakwan",area:"In front of Hall 10",mode:"phone",note:"",link:"",phone:"",fee:null,hours:"",menu:[]}
+];
+var AREAS=["Academic area","OAT","In front of Hall 10"];
+/* Timings as [open hour, open min, close hour, close min] in 24h. Some are tentative. */
+var HOURS={starbucks:[8,0,1,0],subway:[7,0,2,0],dominos:[11,0,3,0],aladdins:[14,0,3,0],burgersingh:[14,0,3,0],naughty:[14,0,3,0],petra:[17,30,3,0],kathi:[16,0,4,0],mamamio:[10,0,3,0],swaad:[10,0,3,0],pakwan:[16,0,3,0]};
+function fmt(m){var h=Math.floor(m/60)%24,mi=m%60,ap=h>=12?"PM":"AM",h12=h%12||12;return h12+(mi?":"+(mi<10?"0":"")+mi:"")+" "+ap}
+OUTLETS.forEach(function(o){var t=HOURS[o.id];if(t){o.open=t[0]*60+t[1];o.close=t[2]*60+t[3];o.hours=fmt(o.open)+" to "+fmt(o.close)}});
+function status(o){
+ if(o.open==null)return {open:false,text:"Timings not added"};
+ var d=new Date(),n=d.getHours()*60+d.getMinutes(),a=o.open,b=o.close,over=b<=a;
+ var isOpen=over?(n>=a||n<b):(n>=a&&n<b);
+ if(isOpen)return {open:true,text:"Open now, closes at "+fmt(b)};
+ var tomorrow=!over&&n>=b;
+ return {open:false,text:"Closed, opens "+(tomorrow?"tomorrow at ":"at ")+fmt(a)};
+}
+
+/* Menus: [category, "Item|price;Item|price"]. Transcribed from photos, so verify prices. */
+var MENUS={
+swaad:[
+["Dosa","Plain Dosa|49;Butter Podi Dosa|59;Garlic Podi Dosa|69;Garlic Butter Dosa|69;Podi Masala Dosa|69;Mysore Plain Dosa|79;Ghee Roast Plain Dosa|89;Cheese Plain Dosa|89"],
+["Masala Dosa","Masala Dosa|59;Paper Masala Dosa|79;Onion Masala Dosa|79;Butter Masala Dosa|89;Paneer Masala Dosa|99;Mysore Masala Dosa|119;Ghee Roast Masala Dosa|119;Cheese Masala Dosa|149"],
+["Rava Dosa","Rava Plain Dosa|49;Rava Masala Dosa|59;Rava Onion Dosa|89;Rava Coconut Plain Dosa|89;Rava Mysore Masala Dosa|99;Rava Paneer Dosa|99"],
+["Swaad Sangam Special","Mysore Paneer Dosa|109;Rava Onion Paneer Dosa|109;Rava Mysore Paneer Dosa|109;Spring Roll Dosa|129;Makhani Paneer Masala Dosa|129;Sangam Special Paneer Dosa|149;Chilli Paneer Dosa|149"],
+["Idli","Idli Sambar (2 pcs)|49;Steamed Butter Idli (2 pcs)|49;Steamed Masala Idli (2 pcs)|49;Millet Idli (2 pcs)|49;Idli Upma (2 pcs)|49;Ghee Idli (2 pcs)|49;Idli Fry Chilli|99"],
+["Uttapam","Plain Uttapam|49;Masala Uttapam|59;Tomato Uttapam|79;Onion Uttapam|79;Tomato Onion Uttapam|89;Mixed Vegetable Uttapam|89;Coconut Uttapam|89;Tomato Coconut Uttapam|89;Paneer Uttapam|99;Cheese Uttapam|129"],
+["Little Bites","Paneer Makhani Sandwich|99;Paneer Tikka Sandwich|99;Cheese Corn Sandwich|99"],
+["Rice Express","Lemon Rice|73;Curd Rice|73;Paneer Rice|99;Veg Rice|99;Chola Rice|99;Manchurian Rice|99"],
+["Desi Pasand","Chole Bhature|89;Extra Bhature|40;Chole Kulcha|89;Extra Kulcha|30;Pav Bhaji|89;Paneer Pav Bhaji|99;Extra Pav|30;Extra Bhaji|30"],
+["Vada","Vada (2 pcs)|49;Medu Vada (2 pcs)|49;Sabudana Vada (2 pcs)|49"]
+],
+pakwan:[
+["Dosa","Mysore Masala Dosa|65;Schezwan Masala Dosa|65;Chilli Garlic Dosa|65;Rawa Masala Dosa|65;Rawa Onion Dosa|65;Jini Dosa|110;Paneer Dosa|70;Paneer Cheese Dosa|90;Cheese Masala Dosa|80;Plain Dosa|50;Paper Plain Dosa|60;Butter Plain Dosa|70;Ghee Dosa|70;Ghee Masala Dosa|75;Masala Dosa|55;Butter Masala Dosa|65;Chicken Dosa|100;Chicken Ghee Dosa|115;Egg Dosa|70;Double Egg Dosa|80;Chicken Egg Dosa|115;Paneer Corn Dosa|100"],
+["Chinese / Starters","Paneer Pakoda (8 pcs)|70;Schezwan Paneer (8 pcs)|80;Lemon Paneer (8 pcs)|80;Crispy Paneer (8 pcs)|80;Schezwan Chilli Potato|70;Schezwan Honey Potato|70;Dahi Kabab (8 pcs)|80;Spring Roll (8 pcs)|70;Paneer Spring Roll|90;Crispy Corn|80;Butter Cheese Corn|90;Chilli Mushroom|95;Chilli Mushroom Baby Corn|110;Chinese Idli|70;Chilli Idli|70;Schezwan Chilli Paneer|80;Ghee Fry Idli|70;Veg Manchurian|60"],
+["Maggie","Tadka Maggie|60;Schezwan Maggie|70;Egg Maggie|70;Chicken Maggie|90;Chicken Cheese Maggie|105;Cheese Maggie|70;Paneer Corn Maggie|80"],
+["Non-Veg","Lemon Chicken|90;Schezwan Chilli Chicken|90;Chicken 65|90;Chicken Hot Wings (4 pcs)|120;Chicken Peri Peri Sticks (8 pcs)|120;Chicken Lollypop (4 pcs)|120;Chicken Kurkure (8 pcs)|90;Chicken Pakoda (8 pcs)|80;Chicken Popcorn|90;Chilli Fish (8 pcs)|90;Fish Pakoda (8 pcs)|80;Lemon Fish (8 pcs)|80;Chicken Fry|95"],
+["Pav Bhaji","Special Pav Bhaji|50;Paneer Pav Bhaji|70;Cheese Pav Bhaji|70;Cheese Paneer Pav Bhaji|90"],
+["Bhel Puri","Bhel Puri|40"],
+["Chowmein & Noodles","Veg Chowmein|60;Paneer Chowmein|70;Schezwan Chowmein|70;Chilli Garlic Chowmein|70;Singapuri Noodles|80;Hakka Noodles|80;Egg Chowmein|70;Chicken Chowmein|90;Chicken Hakka Noodles|95"],
+["Rice","Veg Fried Rice|60;Schezwan Fried Rice|70;Chicken Fried Rice|90;Schezwan Chicken Fried Rice|95;Veg Chow Rice|65;Chicken Chow Rice|95;Veg Manchow Rice|70;Dum Biryani|70;Veg Dum Biryani|80;Veg Hyderabadi Biryani|80;Chicken Hyderabadi Biryani|95;Egg Fried Rice|70;Egg Chicken Fried Rice|95;Chicken Butter Rice|100;Paneer Butter Rice|70;Chicken Malabar Biryani|95;Chicken Rice|90;Lemon Rice|60;Tomato Rice|60;Curd Rice|60;Egg Rice|70"],
+["Sandwich / Burger","Veg Grilled Sandwich|55;Chicken Grilled Sandwich|80;Cheese Potato Grilled Sandwich|65;Paneer Corn Grilled Sandwich|70;Veg Burger|45;Cheese Burger|60;Chicken Burger|90;Maharaja Sandwich|100"],
+["Omelet","Bread Omelet|45;Cheese Omelet|55;Chicken Cheese Omelet|85"]
+],
+kathi:[
+["Special Veg Kathi Rolls","Fry Onion Roll|30;Aloo Roll|35;Chilli Aloo Roll|40;Chatpata Aloo Roll|40;Mix Veggie Roll|40;Single Paneer Roll|65;Double Paneer Roll|80;Single Paneer Cheese Roll|80;Double Paneer Cheese Roll|95;Paneer Bhurji Roll|75;Paneer Mayonnaise Roll|75;Paneer Pudina Roll|75;Paneer Chatpata Roll|75;Paneer Makhani Roll|80;Paneer Peri Peri Roll|80"],
+["Special Non-Veg Kathi Rolls","Single Egg Roll|40;Double Egg Roll|50;Single Chicken Roll|65;Double Chicken Roll|80;Single Egg Single Chicken Roll|75;Double Egg Double Chicken Roll|100;Chicken Mayonnaise Roll|80;Chicken Mayonnaise With Egg Roll|90;Chatpata Chicken Roll|80;Chatpata Chicken With Egg Roll|90;Pudina Chicken Roll|80;Pudina Chicken With Egg Roll|90;Chicken Makhani Roll|80;Chicken Makhani With Egg Roll|90;Chicken Peri Peri Roll|80;Chicken Peri Peri With Egg Roll|90;Chicken Keema Roll|75;Chicken Keema Mayonnaise Roll|90;Chicken Keema Mayonnaise With Egg Roll|100"],
+["Special Mutton Kathi Rolls","Single Mutton Roll|90;Double Mutton Roll|110;Single Egg Single Mutton Roll|100;Double Egg Double Mutton Roll|130;Mutton Mayonnaise Roll|105;Mutton Mayonnaise With Egg Roll|115;Chatpata Mutton Roll|105;Chatpata Mutton With Egg Roll|115;Pudina Mutton Roll|105;Pudina Mutton With Egg Roll|115;Mutton Makhani Roll|105;Mutton Makhani With Egg Roll|115;Mutton Peri Peri Roll|105;Mutton Peri Peri With Egg Roll|115"],
+["Tandoori Specials","Special Tandoori Paneer Tikka Kathi Roll|120;Special Tandoori Chicken Tikka Kathi Roll|120;Special Tandoori Chicken Tikka With Egg Kathi Roll|140"],
+["Extra Add-ons","Egg|10;Sauce (Mayo / Chatpata / Pudina)|15;Sauce (Makhani / Peri Peri)|15;Tandoori Sauce|15;Cheese|15"]
+]
+};
+Object.keys(MENUS).forEach(function(id){var o=byId(id);o.menu=[];MENUS[id].forEach(function(c){c[1].split(";").forEach(function(s){var p=s.split("|");o.menu.push({id:id+o.menu.length,name:p[0],price:+p[1],cat:c[0]})})})});
+
+/* Veg tagging: non-veg if the name mentions meat, fish or egg. Swaad Sangam is pure veg. Verify these tags. */
+function isVeg(o,m){return o.id==="swaad"||!(/\b(chicken|egg|mutton|fish|omelet|keema)\b/i.test(m.name)||m.name==="Dum Biryani")}
+OUTLETS.forEach(function(o){o.menu.forEach(function(m){m.veg=isVeg(o,m)})});
+
+/* ---------- STATE ---------- */
+var S={user:null,view:"home",area:"All",q:"",veg:false,diet:"all",warn:null,outlet:null,cart:{},loginErr:"",toast:""};
+try{var u=localStorage.getItem("cb_user");if(u)S.user=JSON.parse(u);}catch(e){}
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function money(n){return "₹"+n}
+function byId(id){return OUTLETS.filter(function(o){return o.id===id})[0]}
+function go(v,o){S.view=v;if(o!==undefined)S.outlet=o;$("app").scrollTop=0;render()}
+function toast(t){S.toast=t;render();setTimeout(function(){S.toast="";render()},1800)}
+
+/* ---------- VIEWS ---------- */
+function tagFor(o){
+ if(o.mode==="phone")return o.menu.length?'<span class="tag ok">Order here</span>':'<span class="tag info">Menu coming soon</span>';
+ if(o.mode==="app")return '<span class="tag info">Orders on their own app</span>';
+ if(o.mode==="web")return '<span class="tag info">Orders on their own website</span>';
+ return '<span class="tag warn">Delivery not confirmed</span>';
+}
+function header(){
+ return '<header class="top"><div class="in"><button class="brand" data-act="home" aria-label="Campus Bites home"><span>Campus</span>Bites</button><div style="display:flex;align-items:center;gap:10px">'+
+ (S.user&&S.user.guest?'<span style="color:var(--muted);font-size:14px">Guest </span>':S.user?'<span style="color:var(--muted);font-size:14px">+91 '+esc(S.user.phone)+' </span>':'')+
+ '<button class="pill" data-act="logout">'+(S.user&&S.user.guest?'Sign in':'Sign out')+'</button></div></div></header>';
+}
+function loginView(){
+ return '<main class="login"><h1>Campus Bites</h1><p style="color:var(--muted)">Every campus outlet that delivers, in one place. No platform fees. Prices are the outlet’s own.</p>'+
+ '<label for="ph">Mobile number</label><input id="ph" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel-national">'+
+ '<div class="err" id="lerr">'+esc(S.loginErr)+'</div>'+
+ '<button class="btn block" data-act="login">Continue</button>'+
+ '<div class="sep">or</div><button class="btn alt block" data-act="guest">Continue as guest</button>'+
+ '<p style="color:var(--muted);font-size:13px;margin-top:18px">This is a prototype: your number is saved only on this device and is not verified with an OTP.</p></main>';
+}
+function cartOid(){for(var k in S.cart){if(Object.keys(S.cart[k]).length)return k}return null}
+function cartBar(){var id=cartOid(),o=byId(id),n=cartCount(o);
+ return '<div class="bar"><div class="in cartbar"><button class="btn cartgo" data-act="checkout" data-v="'+id+'"><span>'+esc(o.name)+' · '+n+' item'+(n>1?'s':'')+' · '+money(cartTotal(o))+'</span><span>View cart</span></button><button class="iconbtn" data-act="empty" aria-label="Empty cart" title="Empty cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button></div></div>'}
+function warnModal(){var old=byId(cartOid()),nw=S.outlet;
+ return '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="wt"><div class="box"><h3 id="wt">Replace your cart?</h3><p style="color:var(--muted)">Your cart has items from '+esc(old.name)+'. Adding from '+esc(nw.name)+' will replace all items in your cart. You can order from only one outlet at a time.</p><div style="display:grid;gap:10px;margin-top:16px"><button class="btn block" data-act="replace">Replace cart</button><button class="btn alt block" data-act="keep">Keep my cart</button></div></div></div>'}
+function dot(m){var t=m.veg?"Veg":"Non-veg";return '<span class="vd '+(m.veg?'v':'n')+'" title="'+t+'" aria-label="'+t+'"></span>'}
+function card(o){var s=status(o);return '<button class="card '+(s.open?'open':'closed')+'" data-act="open" data-v="'+o.id+'"><h3>'+esc(o.name)+'</h3><p>'+esc(o.hours)+'</p><div class="st '+(s.open?'open':'closed')+'">'+esc(s.text)+'</div></button>'}
+function homeBody(){
+ var q=S.q.trim().toLowerCase(),h="",by=function(a,b){return status(b).open-status(a).open};
+ if(q){
+  var hits=[];
+  OUTLETS.forEach(function(o){o.menu.forEach(function(m){if(((m.name+" "+(m.cat||"")).toLowerCase().indexOf(q)>-1))hits.push({o:o,m:m})})});
+  hits.sort(function(a,b){return by(a.o,b.o)||a.m.price-b.m.price});
+  if(!hits.length)return '<div class="panel">No dishes match “'+esc(S.q)+'”. Try a shorter word like “paneer” or “roll”.</div>';
+  h+='<h2 class="area">'+hits.length+' result'+(hits.length>1?'s':'')+'</h2>';
+  hits.slice(0,40).forEach(function(x){var s=status(x.o);h+='<button class="card '+(s.open?'open':'closed')+'" data-act="open" data-v="'+x.o.id+'"><h3 style="font-size:17px">'+dot(x.m)+esc(x.m.name)+'</h3><p>'+money(x.m.price)+' at '+esc(x.o.name)+'</p><div class="st '+(s.open?'open':'closed')+'">'+esc(s.text)+'</div></button>'});
+  if(hits.length>40)h+='<p style="color:var(--muted);font-size:14px">Showing the first 40. Type more letters to narrow it down.</p>';
+  return h;
+ }
+ AREAS.forEach(function(a){var list=OUTLETS.filter(function(o){return o.area===a}).sort(by);
+  h+='<h2 class="area">'+esc(a)+' <small>'+list.length+' outlets</small></h2>';
+  list.forEach(function(o){h+=card(o)})});
+ return h;
+}
+function homeView(){
+ return '<div class="wrap"><div class="hero"><h1>What are you eating tonight?</h1><p>Search for a dish, or pick an outlet. Open outlets are listed first.</p></div>'+
+ '<div class="notice" style="margin-top:16px"><b>Delivery time depends on the outlet.</b> Each outlet has its own delivery person, so Campus Bites can’t estimate or guarantee when your order will arrive. For now, we only make ordering easier.</div>'+
+ '<input id="q" type="search" aria-label="Search dishes across all outlets" placeholder="Search dishes, like paneer roll or dosa" value="'+esc(S.q)+'" autocomplete="off" style="margin-top:16px">'+
+ ''+
+ '<div id="hb">'+homeBody()+'</div>'+
+ '<p style="text-align:center;color:var(--muted);font-size:14px;margin:36px 0 0">Own an outlet on campus? <button class="link" data-act="join" style="color:var(--ink)">Deliver with Campus Bites</button></p></div>';
+}
+function homeViewOld(){
+ var h='<div class="wrap"><div class="hero"><h1>What are you eating tonight?</h1><p>Outlets that deliver across campus, grouped by where they are.</p></div>';
+ 
+ 
+ AREAS.forEach(function(a){
+  if(S.area!=="All"&&S.area!==a)return;
+  var list=OUTLETS.filter(function(o){return o.area===a});
+  h+='<h2 class="area">'+esc(a)+' <small>'+list.length+' outlets</small></h2>';
+  list.forEach(function(o){
+   var s=status(o);h+='<button class="card '+(s.open?'open':'closed')+'" data-act="open" data-v="'+o.id+'"><h3>'+esc(o.name)+'</h3><p>'+esc(o.hours)+'</p><div class="st '+(s.open?'open':'closed')+'">'+esc(s.text)+'</div></button>';
+  });
+ });
+ h+='<p style="text-align:center;color:var(--muted);font-size:14px;margin:36px 0 0">Own an outlet on campus? <button class="link" data-act="join" style="color:var(--ink)">Deliver with Campus Bites</button></p></div>';
+ return h;
+}
+function cartCount(o){var c=S.cart[o.id]||{},n=0;for(var k in c)n+=c[k];return n}
+function cartTotal(o){var c=S.cart[o.id]||{},t=0;o.menu.forEach(function(m){t+=(c[m.id]||0)*m.price});return t}
+function outletView(){
+ var o=S.outlet,h='<div class="wrap"><button class="link back" data-act="home">‹ All outlets</button><div class="hero" style="padding-top:12px"><h1>'+esc(o.name)+'</h1><p>'+esc(o.area)+'</p></div>';
+ if(o.mode!=="app")h+='<div class="panel" style="margin-top:8px"><div class="row"><span>Delivery fee</span><span class="price">'+(o.fee==null?'Set by outlet, to be added':money(o.fee))+'</span></div><div class="row"><span>Hours</span><span class="price">'+esc(o.hours)+'</span></div><div class="row"><span>Status</span><span class="price st '+(status(o).open?'open':'closed')+'" style="margin-top:0">'+esc(status(o).text)+'</span></div><div class="row"><span>Phone</span><span class="price">'+(o.phone?esc(o.phone):'To be added')+'</span></div></div>';
+ if(o.mode==="phone"&&o.menu.length){
+  if(!status(o).open)h+='<div class="notice">'+esc(o.name)+' is closed right now. You can browse the menu and fill your cart, but you can place the order only when it opens '+esc(status(o).text.replace("Closed, opens ",""))+'.</div>';
+  h+='<div class="filters" role="group" aria-label="Filter menu"><button class="filt" data-act="diet" data-v="veg" aria-pressed="'+(S.diet==="veg")+'"><span class="vd v"></span>Veg</button><button class="filt" data-act="diet" data-v="non" aria-pressed="'+(S.diet==="non")+'"><span class="vd n"></span>Non-veg</button></div>';
+ }
+ if(o.mode==="phone"){
+  if(!o.menu.length){h+='<div class="panel"><b>Menu not available yet.</b></div>'}
+  else{
+   if(o.sample)h+='<div class="notice">Sample menu with placeholder items and prices. The real menu will replace this.</div>';
+   h+='<div class="panel"><h3 style="margin-bottom:4px">Menu</h3>'+(S.diet!=="all"&&!o.menu.some(function(m){return S.diet==="veg"?m.veg:!m.veg})?'<p style="color:var(--muted)">No '+(S.diet==="veg"?"veg":"non-veg")+' items on this menu.</p>':'')+'';
+   var c=S.cart[o.id]||{};
+   var lc="";o.menu.forEach(function(m){if((S.diet==="veg"&&!m.veg)||(S.diet==="non"&&m.veg))return;var q=c[m.id]||0;if(m.cat&&m.cat!==lc){lc=m.cat;h+='<div class="cat">'+esc(m.cat)+'</div>'}
+    h+='<div class="row"><div><div class="n">'+dot(m)+esc(m.name)+'</div><div class="d">'+esc(m.desc||"")+'</div><div class="price">'+money(m.price)+'</div></div><div class="qty">'+
+    (q?'<button data-act="dec" data-v="'+m.id+'" aria-label="Remove one '+esc(m.name)+'">−</button><span aria-live="polite">'+q+'</span><button data-act="inc" data-v="'+m.id+'" aria-label="Add one '+esc(m.name)+'">+</button>':'<button class="add" data-act="inc" data-v="'+m.id+'">Add</button>')+'</div></div>';
+   });
+   h+='</div>';
+  }
+ } else if(o.mode==="unknown"){
+  h+='<div class="panel"><b>Delivery not confirmed yet.</b><p style="color:var(--muted);margin:6px 0 0">'+esc(o.note)+' Once we know, this page will show how to order.</p></div>';
+ } else {
+  h+='<div class="panel"><b>'+esc(o.name)+' takes orders on its own app.</b><p style="color:var(--muted);margin:6px 0 12px">Tap below to open it and order there.</p>'+
+  '<a class="btn" href="'+esc(o.link)+'" target="_blank" rel="noopener">Open '+esc(o.name)+' app</a></div>';
+ }
+ if(false){
+  h+='</div><div class="bar"><div class="in"><button class="btn block" data-act="checkout">Review order · '+cartCount(o)+' item'+(cartCount(o)>1?'s':'')+' · '+money(cartTotal(o))+'</button></div></div>';
+ } else h+='</div>';
+ return h;
+}
+function orderText(o){
+ var c=S.cart[o.id]||{},lines=[];
+ o.menu.forEach(function(m){if(c[m.id])lines.push(c[m.id]+" × "+m.name+" — "+money(c[m.id]*m.price))});
+ var nm=($("nm")&&$("nm").value)||"",ph=S.user.guest?(($("cp")&&$("cp").value)||""):S.user.phone,ad=($("ad")&&$("ad").value)||"",nt=($("nt")&&$("nt").value)||"";
+ return "Hi "+o.name+", I’d like to place a delivery order:\n"+lines.join("\n")+"\nItems total: "+money(cartTotal(o))+"\nDelivery fee: "+(o.fee==null?"as per your usual fee":money(o.fee))+"\nName: "+nm+"\nPhone: "+ph+"\nDeliver to: "+ad+(nt?"\nNote: "+nt:"")+"\nPayment: on delivery";
+}
+function checkoutView(){
+ var o=S.outlet,c=S.cart[o.id]||{},st=status(o),dis=st.open?'':' disabled';
+ var h='<div class="wrap"><button class="link back" data-act="open" data-v="'+o.id+'">‹ Back to menu</button><div class="hero" style="padding-top:12px"><h1>Your order</h1><p>'+esc(o.name)+'</p><button class="pill" data-act="empty" style="margin-top:10px">Empty cart</button></div><div class="panel">';
+ o.menu.forEach(function(m){if(c[m.id])h+='<div class="row"><span>'+c[m.id]+' × '+esc(m.name)+'</span><span class="price">'+money(c[m.id]*m.price)+'</span></div>'});
+ h+='<div class="row"><span>Items total</span><span class="price">'+money(cartTotal(o))+'</span></div><div class="row"><span>Delivery fee (set by outlet)</span><span class="price">'+(o.fee==null?'To be added':money(o.fee))+'</span></div></div>';
+ h+='<div class="panel"><label for="nm" style="margin-top:0">Your name</label><input id="nm" autocomplete="name">'+(S.user.guest?'<label for="cp">Your phone number</label><input id="cp" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel-national">':'')+'<label for="ad">Deliver to (hall, room or spot)</label><input id="ad" placeholder="e.g. Hall 10, Room 214"><label for="nt">Note for the outlet (optional)</label><textarea id="nt" rows="2"></textarea><div class="err" id="cerr"></div>';
+ if(!st.open)h+='<div class="notice">'+esc(o.name)+' is closed right now. You can keep your cart and place the order when it opens '+esc(st.text.replace("Closed, opens ",""))+'.</div>';h+='<p style="color:var(--muted);font-size:14px;margin:0 0 12px">The outlet confirms your order and delivery time. Pay the outlet directly on delivery. Delivery time depends on the outlet, and Campus Bites can’t guarantee when your order will arrive.</p>';
+ if(o.phone)h+='<button class="btn block" data-act="wa"'+dis+'>Send order on WhatsApp</button><div style="height:10px"></div><a class="btn alt block" href="tel:'+esc(o.phone)+'">Call outlet</a><div style="height:10px"></div>';
+ h+='<button class="btn '+(o.phone?'alt ':'')+'block" data-act="copy"'+dis+'>'+(o.phone?'Copy order message':'Place order')+'</button>';
+ 
+ h+='</div></div>';
+ return h;
+}
+function joinView(){
+ return '<div class="wrap"><button class="link back" data-act="home">‹ All outlets</button><div class="hero" style="padding-top:12px"><h1>Deliver on campus</h1><p>No platform fees. You keep your own menu prices and set your own delivery fee. Share a few details and the admin will add your outlet.</p></div>'+
+ '<div class="panel"><label for="jo" style="margin-top:0">Outlet name</label><input id="jo"><label for="jl">Location on campus</label><input id="jl" placeholder="e.g. Near Hall 5"><label for="jn">Contact person</label><input id="jn"><label for="jp">Phone number</label><input id="jp" type="tel" inputmode="numeric"><div class="err" id="jerr"></div>'+
+ '<button class="btn block" data-act="joinsend">'+(ADMIN.phone?'Send request on WhatsApp':'Copy request for admin')+'</button>'+
+ '<p style="color:var(--muted);font-size:14px;margin:12px 0 0">Admin contact: '+(ADMIN.phone||ADMIN.email?esc(ADMIN.phone||ADMIN.email):'to be added')+'</p></div>'+
+ '<div class="panel"><h3 style="margin-bottom:6px">What you will need</h3><div class="d" style="color:var(--muted)">Your menu with prices, opening hours, delivery fee, and a phone number where you can receive orders.</div></div></div>';
+}
+
+/* ---------- RENDER ---------- */
+function render(){
+ var h="";
+ if(!S.user)h=loginView();
+ else{h=header();
+  if(S.view==="home")h+=homeView();
+  else if(S.view==="outlet")h+=outletView();
+  else if(S.view==="checkout")h+=checkoutView();
+  else if(S.view==="join")h+=joinView();}
+ var ov="";if(S.user&&S.view!=="checkout"&&cartOid())ov+=cartBar();if(S.warn)ov+=warnModal();
+ if(S.toast)ov+='<div class="toast" role="status">'+esc(S.toast)+'</div>';
+ var keep={};["ph","q","cp","nm","ad","nt","jo","jl","jn","jp"].forEach(function(i){if($(i))keep[i]=$(i).value});
+ $("app").innerHTML=h;$("ov").innerHTML=ov;$("app").setAttribute("data-view",S.user?S.view:"login");
+ for(var k in keep)if($(k))$(k).value=keep[k];
+}
+function copy(t){
+ try{navigator.clipboard.writeText(t).then(function(){toast("Copied")},function(){toast("Copy failed, select the text manually")});}
+ catch(e){toast("Copy not supported here")}
+}
+document.addEventListener("click",function(e){
+ var b=e.target.closest("[data-act]");if(!b)return;
+ var a=b.dataset.act,v=b.dataset.v,o=S.outlet;
+ if(a==="login"){var p=($("ph").value||"").replace(/\D/g,"");
+  if(!/^[6-9]\d{9}$/.test(p)){S.loginErr="Enter a valid 10-digit mobile number.";render();return}
+  S.loginErr="";S.user={phone:p};try{localStorage.setItem("cb_user",JSON.stringify(S.user))}catch(x){}render();}
+ else if(a==="guest"){S.user={guest:true};try{localStorage.removeItem("cb_user")}catch(x){}render()}
+ else if(a==="logout"){S.user=null;S.cart={};S.view="home";try{localStorage.removeItem("cb_user")}catch(x){}render()}
+ else if(a==="diet"){S.diet=S.diet===v?"all":v;render()}
+ else if(a==="empty"){S.cart={};if(S.view==="checkout")S.view="home";toast("Cart emptied")}
+ else if(a==="keep"){S.warn=null;render()}
+ else if(a==="replace"){var w=S.warn;S.cart={};S.cart[o.id]={};S.cart[o.id][w.item]=1;S.warn=null;render()}
+ else if(a==="veg"){S.veg=!S.veg;render()}
+ else if(a==="home")go("home");
+ else if(a==="area"){S.area=v;render()}
+ else if(a==="open")go("outlet",byId(v));
+ else if(a==="inc"){var cur=cartOid();if(cur&&cur!==o.id){S.warn={item:v};render();return}var c=S.cart[o.id]=S.cart[o.id]||{};c[v]=(c[v]||0)+1;render()}
+ else if(a==="dec"){var c2=S.cart[o.id]||{};if(c2[v]>1)c2[v]--;else delete c2[v];render()}
+ else if(a==="checkout")go("checkout",v?byId(v):S.outlet);
+ else if(a==="join")go("join");
+ else if(a==="copy"||a==="wa"){if(!status(o).open){toast(o.name+" is closed right now");return}
+  if(!$("nm").value.trim()||!$("ad").value.trim()){$("cerr").textContent="Add your name and where to deliver.";return}if(S.user.guest&&!/^[6-9]\d{9}$/.test($("cp").value.replace(/\D/g,""))){$("cerr").textContent="Enter a valid 10-digit phone number so the outlet can reach you.";return}
+  var t=orderText(o);
+  if(a==="copy"){try{navigator.clipboard.writeText(t)}catch(x){}}else window.open("https://wa.me/"+o.phone.replace(/\D/g,"")+"?text="+encodeURIComponent(t),"_blank");S.cart={};S.view="home";$("app").scrollTop=0;toast(a==="copy"?"Order placed. Message copied.":"Order placed")}
+ else if(a==="joinsend"){
+  if(!$("jo").value.trim()||!$("jp").value.trim()){$("jerr").textContent="Add the outlet name and a phone number.";return}
+  var m="Request to add an outlet to Campus Bites\nOutlet: "+$("jo").value+"\nLocation: "+$("jl").value+"\nContact: "+$("jn").value+"\nPhone: "+$("jp").value;
+  if(ADMIN.phone)window.open("https://wa.me/"+ADMIN.phone.replace(/\D/g,"")+"?text="+encodeURIComponent(m),"_blank");else copy(m);}
+});
+render();
+function tick(){var d=new Date(),h=d.getHours()%12||12,m=d.getMinutes();$("clock").textContent=h+":"+(m<10?"0":"")+m}tick();setInterval(tick,20000);
+document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target.value;var hb=$("hb");if(hb)hb.innerHTML=homeBody()}});
+setInterval(function(){if(S.user&&(S.view==="home"||S.view==="outlet")&&!(document.activeElement&&document.activeElement.id==="q"))render()},60000);
+</script>
+</body>
+</html>
